@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Skatchpad 🎨 WB</title>
+    <title>Sketchpad 🎨 WB</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press+Start+2P|Droid+Sans">
   </head>
   <body>
     <section class="etch-a-sketch"> 
       <div class="title">
-        <!-- <title>Sketchpad 🎨</title> -->
         <p>Sketchpad</p>
-        <p><span class="palete-icon">🎨</span></p>
       </div>
       <button id="top-row-button" class="default-button"> Grid Size </button>
       <form>
-        <input type="range" id="grid-size-input" min = "2", max = "100" value="30" onchange="createGrid(this.value);">
+        <input type="range" id="grid-size-input" min = "2", max = "100" value="30" onchange="changeGrid(this.value)">
       </form>
     </section>
     <section class="sketchpad"> 
@@ -23,7 +21,7 @@
         <button class="default-button random-color">Random Color</button>
         <button class="default-button black-pen">Black Pen</button>
         <button class="default-button eraser">Eraser</button>
-        <button class="default-button clear-palete">Clear Palete</button>
+        <button class="default-button clear-palette">Clear Palette</button>
         <button class="default-button unknown-option">Unknown Option</button>
       </div>
       <div class="canvas-container">
@@ -37,82 +35,84 @@
    <script>
   const myCanvas = document.querySelector('.canvas')
   const gridSizeInput = document.getElementById('grid-size-input');
-  const changeGridSize = document.getElementById('top-row-button');
-  createGrid(50);
-  let selectColor = document.querySelector('.color-input')
+  const gridSizeButton = document.getElementById('top-row-button');
+  const selectColor = document.querySelector('.color-input')
   const randomColor = document.querySelector('.random-color')
   const blackPen = document.querySelector('.black-pen')
   const eraser = document.querySelector('.eraser')
-  const clearPalete = document.querySelector('.clear-palete')
+  const paletteClear = document.querySelector('.clear-palette')
   const unknownOption = document.querySelector('.unknown-option')
   const colorInput = document.querySelector('.color-input')
-  let title = document.querySelector('.title')
-  let cells = document.querySelectorAll('.cell');
-  let gridSize = document.getElementById('grid-size-input').value;
+  const title = document.querySelector('.title')
+  
+  function init() {
+      let cells = document.querySelectorAll('.cell');
+      gridSizeButton.addEventListener('click', (e) => changeGrid(20));
+      // gridSizeButton.addEventListener('click', (e) => changeGrid(window.prompt('Enter the grid size')));
+      paletteClear.addEventListener('click', (e) => clearCanvas());
+      colorInput.addEventListener('click', (e) =>  useColor());
+      blackPen.addEventListener('click', (e) =>  changePenColor('#000000'));
+      eraser.addEventListener('click', (e) =>  changePenColor('#ffffff'));
+      randomColor.addEventListener('click', (e) =>  makeRandomColor());
+      unknownOption.addEventListener('click', (e) => makeUnknownOption());
 
-
-  changeGridSize.addEventListener('click', (e) => changeGrid());
-  clearPalete.addEventListener('click', (e) => clearCanvas());
-  colorInput.addEventListener('click', (e) =>  useColor());
-  blackPen.addEventListener('click', (e) =>  changePenColor('#000000'));
-  eraser.addEventListener('click', (e) =>  changePenColor('#ffffff'));
-  randomColor.addEventListener('click', (e) =>  makeRandomColor());
-  unknownOption.addEventListener('click', (e) => makeUnknownOption());
-
-function createGrid(size) {
-  myCanvas.innerHTML = " ";
-    let numberOfCells = size**2; 
-
-    for (let i = 0 ; i < numberOfCells; i++) {
-    let cell = document.createElement('div');
-    cell.className = "cell";
-
-    myCanvas.appendChild(cell);
-    myCanvas.style.gridTemplateRows = `repeat(${size}, 1fr)`;
-    myCanvas.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-  } return ;
-
-};
-
-function clearCanvas() {
-  let cells = document.querySelectorAll('.cell');
-  for (let i = 0; i < cells.length; i++) {
-    cells[i].style.cssText = 'background-color: rgb(255, 255, 255);';
-  }
-}
-
-function makeRandomColor() { //Colorize cell to a random color
-      let newColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-      cells.forEach(cell => cell.onmouseover = (e) => {cell.style.backgroundColor =  `${newColor}`});
-        title.style.textShadow = `3px 3px 0.5rem ${newColor}`;
-        colorInput.value = `${newColor}`;
-}
-
-function changePenColor(color) { 
-  cells.forEach(cell => cell.onmouseover = (e) => {cell.style.backgroundColor =  `${color}`});
-    colorInput.value = `${color}`;
-}
-
-function useColor() {
-  cells.forEach(cell => cell.onmouseover = (e) => {cell.style.backgroundColor =  `${colorInput.value}`
-                title.style.textShadow = `3px 3px 0.5rem ${colorInput.value}`;
-  });
-}
-
-function makeUnknownOption() {
-  cells.forEach(cell => cell.onmouseover = (e) => {
-          let randomColor = '#'+(Math.floor(Math.random()*16777215).toString(16));
-          cell.style.backgroundColor =  `${randomColor}`
-          title.style.textShadow = `3px 3px 0.5rem ${randomColor}`;
-          });
-}
-function changeGrid () {
-  let newSize = window.prompt('Enter the grid size');
-  createGrid(newSize);
-}
-
-changePenColor('#000000');
-
+      function clearCanvas() {
+        let cells = document.querySelectorAll('.cell');
+        for (let i = 0; i < cells.length; i++) {
+          cells[i].style.cssText = 'background-color: rgb(255, 255, 255);';
+        }
+      }
+      
+      function makeRandomColor() { //Colorize cell to a random color
+            let newColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+            cells.forEach(cell => cell.onmouseover = (e) => {cell.style.backgroundColor =  `${newColor}`});
+              title.style.textShadow = `3px 3px 0.5rem ${newColor}`;
+              colorInput.value = `${newColor}`;
+      }
+      
+      function changePenColor(color) { 
+        cells.forEach(cell => cell.onmouseover = (e) => {cell.style.backgroundColor =  `${color}`});
+          colorInput.value = `${color}`;
+      }
+      
+      function useColor() {
+        cells.forEach(cell => cell.onmouseover = (e) => {cell.style.backgroundColor =  `${colorInput.value}`
+                      title.style.textShadow = `3px 3px 0.5rem ${colorInput.value}`;
+        });
+      }
+      
+      function makeUnknownOption() {
+        cells.forEach(cell => cell.onmouseover = (e) => {
+                let randomColor = '#'+(Math.floor(Math.random()*16777215).toString(16));
+                cell.style.backgroundColor =  `${randomColor}`
+                title.style.textShadow = `3px 3px 0.5rem ${randomColor}`;
+                });
+      } 
+      changePenColor('#000000');
+      
+  };
+    
+    function createGrid(size) {
+      myCanvas.innerHTML = " ";
+      let numberOfCells = size**2; 
+      
+      for (let i = 0 ; i < numberOfCells; i++) {
+        let cell = document.createElement('div');
+        cell.className = "cell";
+        myCanvas.appendChild(cell);
+        myCanvas.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+        myCanvas.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+      } return
+      
+    };
+    
+    function changeGrid (size) {
+      createGrid(size);
+      init();
+    }
+    
+  createGrid(50);
+  init();
    </script>
 
 </html>
