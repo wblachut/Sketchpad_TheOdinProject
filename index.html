@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sketchpad 🎨 WB</title>
+    <title>WB |The Odin Project| Sketchpad 🎨</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press+Start+2P|Droid+Sans">
   </head>
@@ -63,7 +63,7 @@
         }
       }
       
-      function makeRandomColor() { //Colorize cell to a random color
+      function makeRandomColor() {
             let newColor = '#'+Math.floor(Math.random()*16777215).toString(16);
             cells.forEach(cell => cell.onmouseover = (e) => {cell.style.backgroundColor =  `${newColor}`});
               title.style.textShadow = `3px 3px 0.5rem ${newColor}`;
