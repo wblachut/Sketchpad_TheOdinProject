@@ -1,6 +1,6 @@
 # Sketchpad
 
-[Open the sketchpad !](https://wblachut.github.io/Sketchpad_TheOdinProject/)!
+[Open the sketchpad !](https://wblachut.github.io/Sketchpad_TheOdinProject/)
 
 ##
 ## PROJECT: ETCH-A-SKETCH
